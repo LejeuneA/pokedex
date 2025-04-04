@@ -1,10 +1,38 @@
 mat-card {
   width: 200px;
   margin: 12px;
+  position: relative;
+
+  mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 0;
+
+    button {
+      margin-left: auto;
+    }
+
+    .favorite {
+      color: #ff4081; // Or your preferred favorite color
+    }
+  }
 
   mat-card-content {
     display: flex;
     justify-content: center;
     flex-direction: column;
+
+    img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: center;
   }
 }

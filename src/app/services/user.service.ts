@@ -1,12 +1,13 @@
-import { inject, Injectable } from '@angular/core';
-import { User } from '../models/user.interface';
-import { Router } from '@angular/router';
+import { inject, Injectable } from "@angular/core";
+import { User } from "../models/user.interface";
+import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserService {
-  private readonly USER_KEY = 'USER';
+  private readonly USER_KEY = "USER";
+  private readonly FAVORITES_KEY = "FAVORITES";
 
   private _users: User[] = [];
   private _userLogged: User | undefined;
@@ -57,7 +58,7 @@ export class UserService {
 
   public logout(): void {
     this.setUserLogged(undefined);
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl("login");
   }
 
   public isUserLoggedIn(): boolean {
@@ -78,5 +79,55 @@ export class UserService {
     }
     this.setUserLogged(userDB);
     localStorage.setItem(this.USER_KEY, JSON.stringify(this._users));
+  }
+
+  // Favorite Pokemon methods
+  public addFavoritePokemon(pokemonId: string, pokemonName: string): void {
+    if (!this._userLogged) return;
+
+    const favorites = this.getUserFavorites(this._userLogged.email);
+    if (!favorites.some((fav) => fav.id === pokemonId)) {
+      favorites.push({ id: pokemonId, name: pokemonName });
+      this.saveUserFavorites(this._userLogged.email, favorites);
+    }
+  }
+
+  public removeFavoritePokemon(pokemonId: string): void {
+    if (!this._userLogged) return;
+
+    const favorites = this.getUserFavorites(this._userLogged.email);
+    const updatedFavorites = favorites.filter((fav) => fav.id !== pokemonId);
+    this.saveUserFavorites(this._userLogged.email, updatedFavorites);
+  }
+
+  public isPokemonFavorite(pokemonId: string): boolean {
+    if (!this._userLogged) return false;
+
+    const favorites = this.getUserFavorites(this._userLogged.email);
+    return favorites.some((fav) => fav.id === pokemonId);
+  }
+
+  public getFavoritePokemons(): { id: string; name: string }[] {
+    if (!this._userLogged) return [];
+    return this.getUserFavorites(this._userLogged.email);
+  }
+
+  private getUserFavorites(userEmail: string): { id: string; name: string }[] {
+    const allFavorites = localStorage.getItem(this.FAVORITES_KEY);
+    if (!allFavorites) return [];
+
+    const favoritesMap = JSON.parse(allFavorites);
+    return favoritesMap[userEmail] || [];
+  }
+
+  private saveUserFavorites(
+    userEmail: string,
+    favorites: { id: string; name: string }[]
+  ): void {
+    const allFavorites = localStorage.getItem(this.FAVORITES_KEY);
+    let favoritesMap = allFavorites ? JSON.parse(allFavorites) : {};
+
+    favoritesMap[userEmail] = favorites;
+    localStorage.setItem(this.FAVORITES_KEY, JSON.stringify(favoritesMap));
   }
 }
