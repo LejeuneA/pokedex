@@ -1,0 +1,10 @@
+mat-card {
+  max-width: 450px;
+  margin: auto;
+  form {
+    padding: 12px;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

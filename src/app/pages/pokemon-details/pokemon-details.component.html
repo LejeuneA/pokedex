@@ -1,0 +1,7 @@
+@if(pokemonId) {
+<div class="container">
+  @if(pokemonDetails$|async; as pokemonDetails) {
+  <p>Hello Pokemon : {{pokemonDetails.name}}</p>
+  }
+</div>
+}

@@ -1,0 +1,19 @@
+.link {
+  font-size: smaller;
+  cursor: pointer;
+  display: block;
+  margin-left: 12px;
+
+  &.router-link-active {
+    font-weight: bolder;
+  }
+}
+
+.link:hover {
+  text-decoration: underline grey;
+  font-weight: bolder;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

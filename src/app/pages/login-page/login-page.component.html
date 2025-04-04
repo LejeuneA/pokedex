@@ -1,0 +1,8 @@
+<div class="container">
+    @if(isLogin) {
+    <app-login-form (userLoggedIn)="logUser($event.email, $event.password)"
+        (subscribeClicked)="isLogin = !isLogin"></app-login-form>
+    } @else {
+    <app-subscribe-form (userCreated)="createUser($event)" (loginClicked)="isLogin = !isLogin"></app-subscribe-form>
+    }
+</div>

@@ -1,0 +1,30 @@
+<mat-card appearance="raised">
+    <mat-card-header>
+        <mat-card-title>Mon compte</mat-card-title>
+        <mat-card-subtitle>Modifier les informations de votre profil</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="formGroup">
+            <mat-form-field appearance="outline">
+                <mat-label>Nom</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Prénom</mat-label>
+                <input matInput formControlName="firstname">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Pseudo</mat-label>
+                <input matInput formControlName="pseudo">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password">
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-button (click)="formGroup.disabled ? formGroup.enable() : formGroup.disable()">Modifier</button>
+        <button mat-flat-button [disabled]="formGroup.invalid || !formGroup.touched || formGroup.disabled" (click)="save()">Sauvegarder</button>
+    </mat-card-actions>
+</mat-card>

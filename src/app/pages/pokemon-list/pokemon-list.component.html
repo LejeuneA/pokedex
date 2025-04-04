@@ -1,0 +1,11 @@
+<div class="container">
+
+    @if(pokemonList$|async; as pokemonList) {
+    <div class="cards-container">
+        @for (item of pokemonList.results; track $index) {
+        <app-pokemon-card [name]="item.name" [detailUrl]="item.url"></app-pokemon-card>
+        }
+    </div>
+    <mat-paginator [length]="pokemonList.count" [pageSize]="20"></mat-paginator>
+    }
+</div>
