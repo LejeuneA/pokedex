@@ -1,7 +1,106 @@
 @if(pokemonId) {
 <div class="container">
-  @if(pokemonDetails$|async; as pokemonDetails) {
-  <p>Hello Pokemon : {{pokemonDetails.name}}</p>
+  @if(pokemonDetails$ | async; as pokemon) {
+  <mat-card class="pokemon-card">
+    <!-- Header with name and ID -->
+    <mat-card-header>
+      <div mat-card-avatar class="pokemon-avatar">
+        <img [src]="pokemon.sprites.front_default" [alt]="pokemon.name">
+      </div>
+      <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title>
+      <mat-card-subtitle>#{{ pokemon.id.toString().padStart(3, '0') }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <!-- Main image -->
+    <img mat-card-image
+      [src]="pokemon.sprites.other?.['official-artwork']?.front_default || pokemon.sprites.front_default"
+      [alt]="'Official artwork of ' + pokemon.name">
+
+    <mat-card-content>
+      <!-- Basic Info Section -->
+      <div class="info-section">
+        <h3 class="section-title">Basic Info</h3>
+        <mat-divider></mat-divider>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Height</span>
+            <span class="info-value">{{ pokemon.height / 10 }} m</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Weight</span>
+            <span class="info-value">{{ pokemon.weight / 10 }} kg</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Base XP</span>
+            <span class="info-value">{{ pokemon.base_experience }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Types Section -->
+      <div class="info-section">
+        <h3 class="section-title">Types</h3>
+        <mat-divider></mat-divider>
+        <div class="chips-container">
+          @for (type of pokemon.types; track type.slot) {
+          <mat-chip [class]="'type-' + type.type.name">{{ type.type.name | titlecase }}</mat-chip>
+          }
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="info-section">
+        <h3 class="section-title">Stats</h3>
+        <mat-divider></mat-divider>
+        <mat-list>
+          @for (stat of pokemon.stats; track stat.stat.name) {
+          <mat-list-item>
+            <span matListItemTitle>{{ stat.stat.name | titlecase }}</span>
+            <span matListItemLine>{{ stat.base_stat }}</span>
+            <mat-progress-bar mode="determinate" [value]="stat.base_stat > 100 ? 100 : stat.base_stat"
+              [color]="getStatColor(stat.base_stat)">
+            </mat-progress-bar>
+          </mat-list-item>
+          }
+        </mat-list>
+      </div>
+
+      <!-- Abilities Section -->
+      <div class="info-section">
+        <h3 class="section-title">Abilities</h3>
+        <mat-divider></mat-divider>
+        <mat-list>
+          @for (ability of pokemon.abilities; track ability.ability.name) {
+          <mat-list-item>
+            <span matListItemTitle>{{ ability.ability.name | titlecase }}</span>
+            @if (ability.is_hidden) {
+            <span matListItemLine>(Hidden Ability)</span>
+            }
+          </mat-list-item>
+          }
+        </mat-list>
+      </div>
+
+      <!-- Sprites Section -->
+      <div class="info-section">
+        <h3 class="section-title">Sprites</h3>
+        <mat-divider></mat-divider>
+        <div class="sprites-container">
+          <img [src]="pokemon.sprites.front_default" [alt]="pokemon.name + ' front'">
+          <img [src]="pokemon.sprites.back_default" [alt]="pokemon.name + ' back'">
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button color="primary" routerLink="/pokemon-list">
+        <mat-icon>arrow_back</mat-icon>
+        Back to List
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  } @else {
+  <mat-spinner></mat-spinner>
   }
 </div>
 }
