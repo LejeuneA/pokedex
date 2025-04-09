@@ -31,14 +31,14 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
   styleUrls: ["./pokemon-details.component.scss"],
 })
 export class PokemonDetailsComponent implements OnInit {
-  private readonly pokemonService = inject(PokemonsService);
-  private readonly route = inject(ActivatedRoute);
+  private readonly pokemonService = inject(PokemonsService); //to fetch Pokémon data from the API.
+  private readonly route = inject(ActivatedRoute); //to read the URL parameter (:id).
 
-  public pokemonId = this.route.snapshot.params?.["id"];
-  public pokemonDetails$ = this.pokemonService.getDetails(this.pokemonId);
+  public pokemonId = this.route.snapshot.params?.["id"]; // Extract ID from URL
+  public pokemonDetails$ = this.pokemonService.getDetails(this.pokemonId); // Fetch details
 
   ngOnInit(): void {
-    console.log("Pokemon ID:", this.pokemonId);
+    console.log("Pokemon ID:", this.pokemonId); // Debugging
   }
 
   getStatColor(value: number): string {

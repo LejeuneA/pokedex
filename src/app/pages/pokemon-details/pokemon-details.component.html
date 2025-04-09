@@ -1,13 +1,13 @@
 @if(pokemonId) {
 <div class="container">
-  @if(pokemonDetails$ | async; as pokemon) {
+  @if(pokemonDetails$ | async; as pokemon) { <!-- Waits for pokemonDetails$ Observable to emit data before rendering.-->
   <mat-card class="pokemon-card">
     <!-- Header with name and ID -->
     <mat-card-header>
       <div mat-card-avatar class="pokemon-avatar">
         <img [src]="pokemon.sprites.front_default" [alt]="pokemon.name">
       </div>
-      <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title>
+      <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title> <!-- Displays the Pokémon's name.-->
       <mat-card-subtitle>#{{ pokemon.id.toString().padStart(3, '0') }}</mat-card-subtitle>
     </mat-card-header>
 
@@ -53,6 +53,7 @@
         <h3 class="section-title">Stats</h3>
         <mat-divider></mat-divider>
         <mat-list>
+          <!--Iterates through stats array to display each stat (HP, Attack, etc.).-->
           @for (stat of pokemon.stats; track stat.stat.name) {
           <mat-list-item>
             <span matListItemTitle>{{ stat.stat.name | titlecase }}</span>
