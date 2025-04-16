@@ -6,6 +6,6 @@
         <app-pokemon-card [name]="item.name" [detailUrl]="item.url"></app-pokemon-card>
         }
     </div>
-    <mat-paginator [length]="pokemonList.count" [pageSize]="20"></mat-paginator>
+    <mat-paginator (page)="onPageChange($event, pokemonList.next, pokemonList.previous)" [length]="pokemonList.count" [pageSize]="20"></mat-paginator>
     }
 </div>
